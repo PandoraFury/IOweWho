@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">IOweWho</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="name_your_tab">Name Your Tab</string>
+    <string name="created_message">Created</string>
+    <string name="tab_error_message">Name your tab!</string>
+    <string name="open_tabs">Open Tabs</string>
+</resources>
