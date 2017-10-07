@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 
 public class Tab {
-    private ArrayList<String> nameList;
+    private ArrayList<Person> nameList;
     private String tabName;
     private double currentTotal;
 
@@ -17,7 +17,7 @@ public class Tab {
     Tab(String name)
     {
         tabName = name;
-        nameList = new ArrayList<String>();
+        nameList = new ArrayList<Person>();
     }
 
     protected void addToTotal(double amount){
@@ -28,16 +28,16 @@ public class Tab {
         return currentTotal;
     }
 
-    public void addName(String name)
+    public void addName(Person name)
     {
         nameList.add(name);
     }
 
-    public ArrayList<String> getNameList() {
+    public ArrayList<Person> getNameList() {
         return nameList;
     }
 
-    public void setNameList(ArrayList<String> nameList) {
+    public void setNameList(ArrayList<Person> nameList) {
         this.nameList = nameList;
     }
 

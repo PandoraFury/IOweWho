@@ -14,15 +14,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SingleTabActivity extends AppCompatActivity {
 
-    private ArrayList<Tab> tabList = new ArrayList<>();
+    //private ArrayList<Tab> tabList = new ArrayList<>();
+    private ArrayList<String> nameList = new ArrayList<>();
     private Tab currentTab;
     private View mView;
     private EditText mNewAmount;
     private TextView currentAmount;
+    private Person person;
 
 
     @Override
@@ -41,7 +45,7 @@ public class SingleTabActivity extends AppCompatActivity {
         textView.setText(message);
         currentTab = new Tab(message);
 
-        tabList.add(currentTab);
+        //tabList.add(currentTab);
 
         final Button mNewNameGo = (Button) findViewById(R.id.btAddName);
         mNewNameGo.setOnClickListener(new View.OnClickListener() {
@@ -57,12 +61,17 @@ public class SingleTabActivity extends AppCompatActivity {
                 if (newName.isEmpty()) {
                     Toast.makeText(SingleTabActivity.this, "Enter a name!", Toast.LENGTH_LONG).show();
                 } else {
-                    currentTab.addName(newName);
-                    mAddName.setText(null);
-                    ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(SingleTabActivity.this, android.R.layout.simple_list_item_1, currentTab.getNameList());
-                    ListView listView = (ListView) findViewById(R.id.lvNames);
-                    listView.setAdapter(mAdapter);
-
+                    if (Arrays.asList(nameList).contains(newName)){
+                        Toast.makeText(SingleTabActivity.this,"Name already in list!",Toast.LENGTH_LONG).show();
+                    }else {
+                        nameList.add(newName);
+                        person = new Person();
+                        currentTab.addName(person);
+                        mAddName.setText(null);
+                        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(SingleTabActivity.this, android.R.layout.simple_list_item_1, nameList);
+                        ListView listView = (ListView) findViewById(R.id.lvNames);
+                        listView.setAdapter(mAdapter);
+                    }
                 }
             }
         });
@@ -87,7 +96,7 @@ public class SingleTabActivity extends AppCompatActivity {
                         Double newAmount;
                         String stNewAmount = mNewAmount.getText().toString();
 
-                        if (stNewAmount.matches("[0-9]") || stNewAmount.matches("[0-9]+\\.[0-9]{2}") || stNewAmount.matches("\\.[0-9]{2}")) {
+                        if (stNewAmount.matches("[0-9]+") || stNewAmount.matches("[0-9]+\\.[0-9]{2}") || stNewAmount.matches("\\.[0-9]{2}")) {
                             newAmount = Double.parseDouble(mNewAmount.getText().toString());
                             dialog.dismiss();
                             addNewAmount(newAmount);
@@ -106,9 +115,10 @@ public class SingleTabActivity extends AppCompatActivity {
 
 
     public void addNewAmount(double amount) {
+        NumberFormat defaultFormat = NumberFormat.getCurrencyInstance();
         currentTab.addToTotal(amount);
-        currentAmount.setText(Double.toString(currentTab.getCurrentTotal()));
-
+        //currentAmount.setText(Double.toString(currentTab.getCurrentTotal()));
+        currentAmount.setText(defaultFormat.format(currentTab.getCurrentTotal()));
     }
 
 }
